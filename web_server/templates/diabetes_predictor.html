@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diabetes Predictor</title>
+
+  <link rel="stylesheet" href="css/diabetes.css">
+  <script src="js/sweetalert2@11.js"></script>
+</head>
+<body>
+  <div class="container" id="main-container">
+    <h2>Diabetes Calculator for Women</h2>
+    <form>
+      <label>
+        <span>Pregnancies</span>
+        <input type="number" name="pregnancies" step="1">
+      </label>
+      <label>
+        <span>Glucose</span>
+        <input type="number" name="glucose" step=".01">
+      </label>
+      <label>
+        <span>Blood Pressure</span>
+        <input type="number" name="blood_pressure" step=".01">
+      </label>
+      <label>
+        <span>Skin Thickness</span>
+        <input type="number" name="skin_thickness" step=".01">
+      </label>
+      <label>
+        <span>Insulin</span>
+        <input type="number" name="insulin" step=".01">
+      </label>
+      <label>
+        <span>BMI</span>
+        <input type="number" name="bmi" step=".01">
+      </label>
+      <label>
+        <span>Age</span>
+        <input type="number" name="age" step="1">
+      </label>
+      <button type="submit">Predict</button>
+    </form>
+  </div>
+
+  <script>
+    function getAlertInfo(percentage) {
+      if(percentage < 5) {
+        return {
+          icon: 'success',
+          msg: "You're healthy!"
+        }
+      } else if(percentage < 15) {
+        return {
+          icon: 'info',
+          msg: "You have some risk of having diabetes. Let's start exercising."
+        }
+      } else if(percentage < 30) {
+        return {
+          icon: 'warning',
+          msg: "Warning! You're at pretty high risk of having diabetes!"
+        }
+      } else {
+        return {
+          icon: 'error',
+          msg: "Warning!!! You're at VERY high risk of having diabetes!!!"
+        }
+      }
+    }
+
+    const form = document.querySelector('form')
+    form.onsubmit = async (e) => {
+      e.preventDefault()
+      console.log('Submitting form!')
+
+      const formData = new FormData()
+      const inputElArray = form.querySelectorAll('input')
+      for(let inputEl of inputElArray) {
+        const field = inputEl.name 
+        formData.append(field, inputEl.value)
+      }
+      const response = await fetch('/api/diabetes', {
+        method: 'POST',
+        body: formData
+      })
+      const data = await response.json()
+      const probability = data.probability
+      const percentage = (probability * 100).toFixed(2)
+      const alertInfo = getAlertInfo(percentage)
+      const color = alertInfo.icon === 'success' ? 'green' : 'red'
+      
+      Swal.fire({
+        title: 'The chances of you having diabetes are...',
+        html: `<h2 style="color:${color};font-size:1.5rem;">${percentage}%</h2><p>${alertInfo.msg}</p>`,
+        icon: alertInfo.icon
+      })
+    }
+  </script>
+</body>
+</html>

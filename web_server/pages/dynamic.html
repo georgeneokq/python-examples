@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>食事</title>
+  <link rel="stylesheet" href="css/menu-page.css">
+  <script src="js/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="container" id="main-container">
+      <h2>{{ title }}</h2>
+      <table v-if="shokuji.length > 0">
+        <thead>
+          <tr>
+            <th v-for="key in Object.keys(shokuji[0])">
+              {{ key }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in shokuji">
+            <td v-for="value in Object.values(item)">
+              {{ value }}
+            </td>
+          </tr>
+      </table>
+    </div>
+  </div>
+  
+  <script>
+    async function getData() {
+      const response = await fetch('/api/shokuji')
+      const data = await response.json()
+      return data
+    }
+
+    Vue.createApp({
+      data() {
+        return {
+          title: '',
+          shokuji: []
+        }
+      },
+      async mounted() {
+        const data = await getData()
+        this.title = data.title
+        this.shokuji = data.data
+      },
+    }).mount('#app')
+    
+  </script>
+</body>
+</html>
