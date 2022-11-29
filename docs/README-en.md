@@ -14,6 +14,8 @@ to build something useful.
 
 ## Installation (Windows)
 
+Install Python, version 3.9 onwards.
+
 ```
 powershell
 python -m venv venv

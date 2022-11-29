@@ -16,6 +16,8 @@ For English-speaking developers, [view the English documentation](docs/README-en
 
 ## インストレーション(Windows)
 
+まずはPython3.9以降のバージョンをインストールしてください。
+
 ```
 powershell
 python -m venv venv
