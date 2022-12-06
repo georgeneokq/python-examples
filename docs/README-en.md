@@ -80,3 +80,13 @@ Make sure the web server is running before running the following command. See [C
 ```powershell
 python automate.py
 ```
+
+### Security issues
+
+The `security` folder contains several applications with vulnerabilities.
+
+[sql_injection.py](security/sql_injection.py): SQL injection attack
+
+[path_traversal.py](security/path_traversal.py): Path traversal attack
+
+[ssti.py](security/ssti.py): Server-side template injection attack

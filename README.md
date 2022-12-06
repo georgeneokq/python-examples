@@ -83,3 +83,13 @@ python -m notebook machine_learning/train_diabetes.ipynb
 ```powershell
 python automate.py
 ```
+
+### セキュリティ上問題
+
+`security`ディレクトリには脆弱性が入ってるアプリケーションがいくつか入ってあります。
+
+[sql_injection.py](security/sql_injection.py): SQLインジェクション攻撃
+
+[path_traversal.py](security/path_traversal.py): パストラバーサル攻撃
+
+[ssti.py](security/ssti.py): サーバーサイドテンプレートインジェクション攻撃

