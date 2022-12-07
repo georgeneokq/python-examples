@@ -1,21 +1,45 @@
-from flask import Flask, send_file, render_template_string, request, redirect
+from flask import Flask, send_file, render_template_string, request
+from os import path, listdir
 
 app = Flask(__name__)
+
+DOWNLOADS_PATH = '.'
 
 @app.route('/')
 def index():
   file = request.args.get('file')
   print(request.args)
 
-  if file is None:
-    return redirect('/?file=')
+  # ダウンロード可能のファイル一覧を取得
+  filenames = filter(lambda filename: path.isfile(path.join(DOWNLOADS_PATH, filename)), listdir(DOWNLOADS_PATH))
 
-  if file == '':
-    return render_template_string('<b style="text-align:center">http://localhost:5000/?file=<ファイル名></b>')
+  if file is None or file == '':
+    html = """
+    <html>
+      <head>
+      </head>
+      <body>
+        <table>
+          <tbody>
+            {% for filename in filenames %}
+            <tr>
+              <td>
+                <a href="/?file={{filename}}">
+                  {{ filename }}
+                </a>
+              </td> 
+            </tr>
+            {% endfor %}
+          </body>
+        </table>
+      </body>
+    </html>
+    """
+    return render_template_string(html, filenames=filenames)
 
   try:
     # パストラバーサル攻撃が可能
-    return send_file(file, as_attachment=True)
+    return send_file(path.join(DOWNLOADS_PATH, file), as_attachment=True)
   except:
     return render_template_string(f'<p style="text-align:center;font-size:1.2rem;margin-top:15px;">{file}は存在しません。</p>')
 
