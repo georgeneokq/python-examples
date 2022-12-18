@@ -9,7 +9,7 @@ For English-speaking developers, [view the English documentation](docs/README-en
 別々の目的で作られたライブラリたちを合わせることですごいことができるっていう点を示すために、様々なライブラリを使ってPythonで面白いことを色々やって行きます。
 
 - openpyxlライブラリでExcelファイルを操作する
-- Flaskで簡易Webサーバーを立ち上げる
+- FlaskでWebサーバーを立ち上げる
 - SeleniumとBeautiful SoupでWebスクレイピングを行う
 - numpy, pandas, sklearn, seaborn, matplotlibで機械学習を行って、機械学習モデルを作成する
 - Seleniumでブラウザ操作の自動化
